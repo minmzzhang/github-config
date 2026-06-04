@@ -100,11 +100,13 @@ module "repo_fulfillment_service" {
       permission = "admin"
     }
   ]
-
   required_approvals = null
   required_status_checks = [
     "ci/prow/unit"
   ]
+  pages = {
+    build_type = "workflow"
+  }
 }
 
 module "repo_cloudkit_operator" {
