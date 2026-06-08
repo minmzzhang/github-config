@@ -307,5 +307,7 @@ module "repo_osac_workspace" {
   ]
   pages = {
     build_type = "workflow"
+    branch     = "main"
+    path       = "/"
   }
 }
