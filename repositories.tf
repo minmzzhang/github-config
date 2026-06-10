@@ -111,6 +111,10 @@ module "repo_fulfillment_service" {
   push_allowances = ["/openshift-merge-robot", "osac-project/wg-infra"]
   pages = {
     build_type = "workflow"
+    source = {
+      branch = "main"
+      path   = "/"
+    }
   }
 }
 
@@ -307,7 +311,9 @@ module "repo_osac_workspace" {
   ]
   pages = {
     build_type = "workflow"
-    branch     = "main"
-    path       = "/"
+    source = {
+      branch = "main"
+      path   = "/"
+    }
   }
 }
