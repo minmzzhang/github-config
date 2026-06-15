@@ -295,8 +295,13 @@ module "repo_bare_metal_operator" {
     {
       team_id    = "fulfillment-wg"
       permission = "push"
+    },
+    {
+      team_id    = "wg-infra"
+      permission = "admin"
     }
   ]
+  push_allowances = ["/openshift-merge-robot", "osac-project/wg-infra", "osac-project/org-admins"]
 }
 
 module "repo_osac_workspace" {
