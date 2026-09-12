@@ -162,8 +162,7 @@ module "repo_osac" {
     # Names match GitHub Actions job `name:` (or job id if unnamed). Job-level
     # `if:` skips report success, so docs-only PRs are not blocked.
     { context = "pre-commit", integration_id = 15368 },
-    { context = "Check generated code (fulfillment-service)", integration_id = 15368 },
-    { context = "Check generated code (osac-operator)", integration_id = 15368 },
+    { context = "Check generated code (proto)", integration_id = 15368 },
     { context = "Run unit tests", integration_id = 15368 },
     { context = "Run unit tests (osac-metering)", integration_id = 15368 },
     { context = "Run unit tests (osac-metering/adapters)", integration_id = 15368 },
@@ -176,7 +175,6 @@ module "repo_osac" {
     # Cheap lints and component unit tests. Step skip reports success when
     # that path did not change, so unrelated PRs are not blocked.
     { context = "ansible-lint", integration_id = 15368 },
-    { context = "Check generated code (osac-metering/metering-service)", integration_id = 15368 },
     { context = "Check Python code", integration_id = 15368 },
     { context = "Check Go and proto code", integration_id = 15368 },
     { context = "Build binaries", integration_id = 15368 },
