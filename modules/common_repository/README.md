@@ -57,6 +57,7 @@ module "repo_docs" {
 |------|-------------|------|---------|:--------:|
 | <a name="input_all_members_permission"></a> [all\_members\_permission](#input\_all\_members\_permission) | Permission for all organization members | `string` | `"triage"` | no |
 | <a name="input_branch_protection"></a> [branch\_protection](#input\_branch\_protection) | Configure branch protection if true | `bool` | `true` | no |
+| <a name="input_custom_repository_roles"></a> [custom\_repository\_roles](#input\_custom\_repository\_roles) | Names of custom repository roles accepted for team and user access | `list(string)` | `[]` | no |
 | <a name="input_description"></a> [description](#input\_description) | Repository description | `string` | `""` | no |
 | <a name="input_is_template"></a> [is\_template](#input\_is\_template) | Set this to true if this is a template repository | `bool` | `false` | no |
 | <a name="input_labels"></a> [labels](#input\_labels) | List of labels to configure on the repository | <pre>list(object({<br/>    name        = string<br/>    color       = string<br/>    description = string<br/>  }))</pre> | `null` | no |

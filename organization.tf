@@ -23,6 +23,20 @@ resource "github_organization_role" "runner_manager" {
   ]
 }
 
+# Let the infrastructure team manage Actions environments in the osac
+# repository while retaining write access to its code. GitHub's
+# manage-environments permission also includes environment secrets and
+# variables.
+resource "github_organization_repository_role" "osac_environment_manager" {
+  name        = "osac-environment-manager"
+  description = "Write access plus GitHub Actions environment management for osac"
+  base_role   = "write"
+
+  permissions = [
+    "manage_environments",
+  ]
+}
+
 resource "github_organization_role_team" "runner_manager_wg_infra" {
   role_id   = github_organization_role.runner_manager.role_id
   team_slug = github_team.all["wg-infra"].slug

@@ -29,3 +29,25 @@ module "repo_docs" {
   ]
 }
 ```
+
+### A repository collaborator with a custom repository role
+
+Create the organization-level custom role separately, then list its name in
+`custom_repository_roles` so the module accepts it for repository teams or
+users. GitHub custom repository roles require Enterprise Cloud.
+
+```
+module "repo_osac" {
+  source      = "./modules/common_repository"
+  name        = "osac"
+  description = "OSAC mono-repo"
+
+  custom_repository_roles = [github_organization_repository_role.environment_manager.name]
+  teams = [
+    {
+      team_id    = "infrastructure"
+      permission = github_organization_repository_role.environment_manager.name
+    }
+  ]
+}
+```

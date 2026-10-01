@@ -149,7 +149,7 @@ module "repo_osac" {
     },
     {
       team_id    = "infrastructure"
-      permission = "push"
+      permission = github_organization_repository_role.osac_environment_manager.name
     },
     {
       team_id    = "wg-osac-storage"
@@ -199,10 +199,12 @@ module "repo_osac" {
     github_team.all["infrastructure"].id,
   ]
 
+  custom_repository_roles = [github_organization_repository_role.osac_environment_manager.name]
+
   environments = [{
     name = "copr-production"
     reviewers = {
-      teams = [github_team.all["wg-infra"].id]
+      teams = [github_team.all["infrastructure"].id]
     }
   }]
 

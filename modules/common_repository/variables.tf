@@ -69,11 +69,17 @@ variable "teams" {
   }))
   default = []
   validation {
-    error_message = "unknown permission: permission must be one of pull, push, maintain, triage, or admin"
+    error_message = "permission must be a standard repository role or a name in custom_repository_roles"
     condition = alltrue([
-      for v in var.teams : contains(["pull", "push", "maintain", "triage", "admin"], v.permission)
+      for v in var.teams : contains(["pull", "push", "maintain", "triage", "admin"], v.permission) || contains(var.custom_repository_roles, v.permission)
     ])
   }
+}
+
+variable "custom_repository_roles" {
+  description = "Names of custom repository roles accepted for team and user access"
+  type        = list(string)
+  default     = []
 }
 
 variable "users" {
@@ -84,9 +90,9 @@ variable "users" {
   }))
   default = []
   validation {
-    error_message = "unknown permission: permission must be one of pull, push, maintain, triage, or admin"
+    error_message = "permission must be a standard repository role or a name in custom_repository_roles"
     condition = alltrue([
-      for v in var.users : contains(["pull", "push", "maintain", "triage", "admin"], v.permission)
+      for v in var.users : contains(["pull", "push", "maintain", "triage", "admin"], v.permission) || contains(var.custom_repository_roles, v.permission)
     ])
   }
 }
