@@ -189,6 +189,63 @@ resource "github_repository_ruleset" "status_checks" {
   depends_on = [github_repository.repo]
 }
 
+resource "github_repository_ruleset" "tag_creation" {
+  for_each = var.archived ? {} : { for r in var.tag_rulesets : r.name => r }
+
+  name        = "${each.value.name}-creation"
+  repository  = github_repository.repo.name
+  target      = "tag"
+  enforcement = "active"
+
+  dynamic "bypass_actors" {
+    for_each = each.value.creation_bypass_app_ids
+    content {
+      actor_id    = bypass_actors.value
+      actor_type  = "Integration"
+      bypass_mode = "always"
+    }
+  }
+
+  conditions {
+    ref_name {
+      include = each.value.ref_patterns
+      exclude = []
+    }
+  }
+
+  rules {
+    creation = true
+  }
+
+  depends_on = [github_repository.repo]
+}
+
+resource "github_repository_ruleset" "tag_immutable" {
+  for_each = var.archived ? {} : { for r in var.tag_rulesets : r.name => r }
+
+  name        = "${each.value.name}-immutable"
+  repository  = github_repository.repo.name
+  target      = "tag"
+  enforcement = "active"
+
+  # Deliberately no bypass_actors -- updates/deletions are blocked for
+  # everyone, including the App(s) allowed to create matching tags above.
+
+  conditions {
+    ref_name {
+      include = each.value.ref_patterns
+      exclude = []
+    }
+  }
+
+  rules {
+    update   = true
+    deletion = true
+  }
+
+  depends_on = [github_repository.repo]
+}
+
 resource "github_repository_environment" "env" {
   # Skip environments for archived repos (GitHub rejects writes with 409)
   for_each = var.archived ? {} : {

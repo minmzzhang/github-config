@@ -199,6 +199,18 @@ module "repo_osac" {
     github_team.all["infrastructure"].id,
   ]
 
+  # osac-release/* tags trigger a Konflux staging release (see
+  # .tekton/*-release.yaml and the trigger-konflux-staging-release job in
+  # osac-build-and-publish.yaml) -- only the osac-ci app may create them,
+  # and nobody may move or delete one once pushed.
+  tag_rulesets = [
+    {
+      name                    = "osac-release-tag"
+      ref_patterns            = ["refs/tags/osac-release/*"]
+      creation_bypass_app_ids = [4966101] # osac-ci
+    }
+  ]
+
   merge_queue = {
     merge_method                      = "SQUASH"
     max_entries_to_build              = 4

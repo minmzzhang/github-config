@@ -213,3 +213,20 @@ variable "all_members_permission" {
     condition     = contains(["pull", "push", "triage", "maintain", "admin"], var.all_members_permission)
   }
 }
+
+variable "tag_rulesets" {
+  description = <<-EOT
+    Tag protection rulesets. Each entry creates two ruleset resources for the
+    given ref patterns: one allowing tag creation only to the listed GitHub
+    App IDs (nobody, if left empty), and one blocking tag updates and
+    deletions for everyone unconditionally, with no bypass. Intended for
+    marker/automation tags that a specific trusted CI identity creates and
+    that should otherwise be immutable.
+  EOT
+  type = list(object({
+    name                    = string
+    ref_patterns            = list(string)
+    creation_bypass_app_ids = optional(list(number), [])
+  }))
+  default = []
+}
