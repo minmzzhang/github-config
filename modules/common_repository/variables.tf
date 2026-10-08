@@ -20,6 +20,12 @@ variable "required_approvals" {
   default     = 1
 }
 
+variable "require_code_owner_reviews" {
+  description = "Require an approving review from a code owner (per the repository's CODEOWNERS file) before merging a pull request. Only has an effect when required_approvals is not null."
+  type        = bool
+  default     = false
+}
+
 variable "required_status_checks" {
   description = "Status checks that must pass before a PR can merge"
   type = list(object({

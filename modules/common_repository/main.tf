@@ -100,6 +100,7 @@ resource "github_branch_protection" "repo_protection" {
 
     content {
       required_approving_review_count = var.required_approvals
+      require_code_owner_reviews      = var.require_code_owner_reviews
     }
   }
 

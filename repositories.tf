@@ -407,6 +407,32 @@ module "repo_osac_test_infra" {
   }
 }
 
+module "repo_osac_ci" {
+  source      = "./modules/common_repository"
+  visibility  = "public"
+  name        = "osac-ci"
+  description = "Planner that decides which CI jobs run on OSAC pull requests and what each PR is waiting for"
+  # The repository already exists (created by hand), so never generate it
+  # from the public template; it has to be imported into state first.
+  use_public_template = false
+  teams = [
+    {
+      team_id    = "wg-infra"
+      permission = "admin"
+    }
+  ]
+  # The planner can eventually decide what merges in other repositories, so
+  # every change needs a code owner (CODEOWNERS: wg-infra) to approve it.
+  required_approvals         = 1
+  require_code_owner_reviews = true
+  required_status_checks = [
+    { context = "lint", integration_id = 15368 },
+    { context = "unit-tests", integration_id = 15368 },
+    { context = "legacy-differential", integration_id = 15368 },
+  ]
+  ruleset_bypass_team_ids = [github_team.all["wg-infra"].id]
+}
+
 module "repo_massopencloud_templates" {
   source      = "./modules/common_repository"
   visibility  = "public"
