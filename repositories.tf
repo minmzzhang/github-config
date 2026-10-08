@@ -211,13 +211,13 @@ module "repo_osac" {
     }
   ]
 
+  # Full-install E2E gates can take over two hours; leave room for slow runs.
   merge_queue = {
     merge_method                      = "SQUASH"
     max_entries_to_build              = 4
     max_entries_to_merge              = 5
     min_entries_to_merge              = 1
     min_entries_to_merge_wait_minutes = 5
-    # Full-install E2E gates can take over two hours; leave room for slow runs.
     check_response_timeout_minutes    = 180
     grouping_strategy                 = "ALLGREEN"
   }
